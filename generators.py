@@ -2,8 +2,7 @@ import os
 import openai
 import re
 
-key = "Your own key"
-
+key =
 
 def text_generate(ingredients, api_key):
 
