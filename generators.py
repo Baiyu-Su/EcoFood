@@ -2,22 +2,23 @@ import os
 import openai
 import re
 
-key =
+key = 'model api key'
 
-def text_generate(ingredients, api_key):
 
+def text_generate(ppt, ingredients, api_key):
     openai.api_key = api_key
     ingredients_str = ', '.join(ingredients)
-    prompt = 'Create three different food recipes while making use of ' + ingredients_str + '.' \
-             + 'Display weight of each ingredient used.' \
-             + 'Follow the format of \n Name: \n Ingredients: \n Instructions: \n'
+    # prompt = 'Create three different food recipes while making use of ' + ingredients_str + '.' \
+    #          + 'Display weight of each ingredient used.' \
+    #          + 'Follow the format of \n Name: \n Ingredients: \n Instructions: \n'
 
+    prompt = ppt + ingredients_str
     # get response from GPT-3
     response = openai.Completion.create(
-        model="text-davinci-002",
+        model="davinci:ft-oai-hackathon-2022-team-34-2022-11-14-01-27-55",
         prompt=prompt,
         temperature=0.0,
-        max_tokens=2048,
+        max_tokens=1500,
         top_p=1,
         best_of=3,
         frequency_penalty=0.0,
@@ -25,6 +26,7 @@ def text_generate(ingredients, api_key):
     )
 
     response_text = response['choices'][0]['text']
+    print(response_text)
     recipe_text = response_text.split('\n\n')
     # parse the text into three separate lists
     response_list = re.split('Name:|Ingredients:|Instructions:', response_text)[1:]
@@ -67,9 +69,12 @@ def image_generate(recipe, api_key):
 
 
 if __name__ == '__main__':
-    name, ingredient, instruction, recipe = text_generate(['salmon', 'lettuce'], api_key=key)
-    print(image_generate(recipe[0], api_key=key))
+    prompt_1 = 'Name five low-carbon-footprint recipes that use'
+    name, ingredient, instruction, recipe = text_generate(prompt_1, ['chicken', 'tomato', 'lettuce'], api_key=key)
 
+    prompt_2 = 'How to make' + str(name[1]) + 'Display weight of each ingredient used.' \
+               + 'Follow the format of \n Name: \n Ingredients: \n Instructions: \n'
 
+    name, ingredient, instruction, recipe = text_generate(prompt_2, [], api_key=key)
 
-
+    print(instruction)
