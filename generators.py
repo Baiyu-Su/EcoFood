@@ -72,6 +72,7 @@ if __name__ == '__main__':
     prompt_1 = 'Name five low-carbon-footprint recipes that use'
     name, ingredient, instruction, recipe = text_generate(prompt_1, ['chicken', 'tomato', 'lettuce'], api_key=key)
 
+
     prompt_2 = 'How to make' + str(name[1]) + 'Display weight of each ingredient used.' \
                + 'Follow the format of \n Name: \n Ingredients: \n Instructions: \n'
 
